@@ -14,24 +14,11 @@
 
 <ul class="pager">
   <li>
-    <:
-      html_button(
-        class => 'btn_large',
-        label => 'TOPに戻る',
-        id => 'btn_index',
-      )
-    :>
+    <a href="/" class="btn">TOPに戻る</a>
   </li>
 </ul>
 : }
 
 : after javascripts -> {
-<script>
-$(function() {
-    $("#btn_index").click(function() {
-        window.location.href = '<: $config.top_menu :>';
-    });
-});
-</script>
 : }
 :# vi:set ts=2 sw=2 sts=2 ft=xslate et:
