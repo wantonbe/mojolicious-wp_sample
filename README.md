@@ -1,6 +1,6 @@
 # mojolicious-wp_sample
 
-WebDB Press vol75 のMySQL + sinatra サンプルをmojolicious で構築
+WebDB Press vol74 のMySQL + sinatra サンプルを Mojolicious::Lite で構築
 
 ## deploy
 
