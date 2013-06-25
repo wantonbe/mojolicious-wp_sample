@@ -1,0 +1,43 @@
+: cascade layouts::default { title => "お客様の追加：入力の確認" };
+
+: around main -> {
+:# <pre>
+:# : $c | dump
+:# </pre>
+<div class="row">
+  <div class="span12">
+	<form action="/customer/confirmed" method="post">
+		<input name="company_name" type="hidden" value="<: $company_name :>" />
+		<input name="user_name" type="hidden" value="<: $user_name :>" />
+		<input name="email" type="hidden" value="<: $email :>" />
+		
+
+		<legend>以下の情報でよろしいですか？</legend>
+		<div class="controle-group">
+			<label for="company_name_form">会社名: </label>
+			<div class="controles">
+				<: $company_name :>
+			</div>
+		</div>
+		<div class="controle-group">
+			<label for="user_name">氏名: </label>
+			<div class="controles">
+				<: $user_name :>
+			</div>
+		</div>
+		<div class="controle-group">
+			<label for="email_form">メールアドレス: </label>
+			<div class="controles">
+				<: $email :>
+			</div>
+		</div>
+		<div class="controle-group">
+			<div class="controles">
+				<input type="submit" value="登録" class="btn" />
+			</div>
+		</div>
+	</form>
+  </div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

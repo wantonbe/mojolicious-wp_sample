@@ -1,0 +1,32 @@
+: cascade layouts::default { title => "お客様一覧" };
+
+: around main -> {
+<div class="row">
+  <div class="span12">
+	<h3>お客様一覧 (<: 5 * ($page - 1) + 1 :> 〜 <: 5 * $page :>)</h3>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>会社名</th>
+				<th>氏名</th>
+				<th>メールアドレス</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+: for $results -> $r {
+			<tr>
+				<td><: $r.user_id :></td>
+				<td><: $r.company_name :></td>
+				<td><: $r.user_name :></td>
+				<td><: $r.email :></td>
+				<td><a href="/customer/show/<: $r.user_id :>">詳細</a></td>
+			</tr>
+: }
+		</tbody>
+	</table>
+  </div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

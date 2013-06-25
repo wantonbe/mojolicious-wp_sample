@@ -1,0 +1,5 @@
+CREATE TABLE engineers (
+  engineer_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+PRIMARY KEY (engineer_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

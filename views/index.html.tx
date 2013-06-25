@@ -1,0 +1,14 @@
+: cascade layouts::default { title => "ようこそ" };
+
+: around main -> {
+<div class="row">
+  <div class="span12">
+	<ul>
+	<li><a href="/customer/register">お客様情報登録</a></li>
+	<li><a href="/customer/list">お客様一覧</a></li>
+	<li><a href="/logout">ログアウト</a></li>
+	</ul>
+  </div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

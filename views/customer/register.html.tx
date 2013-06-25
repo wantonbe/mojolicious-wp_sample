@@ -1,0 +1,46 @@
+: cascade layouts::default { title => "お客様の追加" };
+
+: around main -> {
+<div class="row">
+	<div class="span12">
+: if $error.has_error {
+	<div class="alert alert-error">
+		<h4>入力に誤りがあります</h4>
+		<ul>
+: for $error.get_error_messages -> $msg {
+			<li><: $msg :></li>
+: }
+		</ul>
+	</div>
+: }
+
+	<form class="form-horizonal" action="/customer/confirm" method="post">
+		<fieldset>
+		<legend>お客様の情報を入力してください。</legend>
+		<div class="control-group<: $error.errors.company_name ? " error" : "" :>">
+			<label class="control-label" for="company_name_form">会社名: </label>
+			<div class="controles">
+				<input type="text" name="company_name" id="company_name_form" value="<: $company_name :>" />
+			</div>
+		</div>
+		<div class="control-group<: $error.errors.user_name ? " error" : "" :>">
+			<label class="control-label" for="user_name_form">氏名: </label>
+			<div class="controles">
+				<input type="text" name="user_name" id="user_name_form" value="<: $user_name :>" />
+			</div>
+		</div>
+		<div class="control-group<: $error.errors.email ? " error" : "" :>">
+			<label class="control-label" for="email_form">メールアドレス: </label>
+			<div class="controles">
+				<input type="text" name="email" id="email_form" valie="<: $email :>" />
+			</div>
+		</div>
+		<div class="control-group">
+			<button type="submit" class="btn">入力内容の確認</button>
+		</div>
+		</fieldset>
+	</form>
+	</div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

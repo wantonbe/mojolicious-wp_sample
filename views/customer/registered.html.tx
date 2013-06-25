@@ -1,0 +1,13 @@
+: cascade layouts::default { title => "登録完了" };
+
+: around main -> {
+<div class="row">
+  <div class="span12">
+	<div class="alert alert-success">
+		<h4>登録が完了しました</h4>
+	</div>
+	<a href="/">トップ画面に戻る</a>
+  </div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

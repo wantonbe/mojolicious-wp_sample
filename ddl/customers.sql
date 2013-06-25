@@ -1,0 +1,6 @@
+CREATE TABLE customers (
+  customer_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  company_name VARCHAR(100) NOT NULL,
+PRIMARY KEY (customer_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

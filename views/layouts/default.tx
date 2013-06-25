@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title><: $title :></title>
+  <link media="all" rel="stylesheet" href="/static/flatstrap-master/assets/css/bootstrap.css" type="text/css" />
+  </head>
+<body>
+<div class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+
+			<a href="#" class="brand">WP Sample</a>
+
+			<div class="nav-collapse collapse">
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+: block main -> {
+: }
+</div>
+<script src="/static/flatstrap-master/assets/js/bootstrap.js"></script>
+</body>
+</html>
+:# vi:set ts=4 sw=4 sts=4 noet:

@@ -1,0 +1,91 @@
+:# NotFound画面（開発用）
+:# -*- coding: utf8 -*-
+<!DOCTYPE HTML>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>Page not found</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style>
+    pre {
+        font: 0.8em Consolas, Menlo, Monaco, Courier, monospace;
+        margin: 0;
+        padding: 0;
+        white-space: pre-wrap;
+        border: none;
+        background-color: transparent;
+    }
+    </style>
+  </head>
+<body>
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a href="http://mojolicio.us" class="brand" target="_blank">Mojolicious</a>
+      <div class="navbar">
+        <ul class="nav pull-right">
+          <li><a href="http://mojolicio.us/perldoc" target="_mojo">Documentation</a></li>
+          <li><a href="http://mojocasts.com" target="_mojo">Screencasts</a></li>
+          <li><a href="https://github.com/kraih/mojo/wiki" target="_mojo">Wiki</a></li>
+          <li><a href="https://github.com/kraih/mojo" target="_mojo">GitHub</a></li>
+          <li><a href="http://metacpan.org/release/Mojolicious/" target="_mojo">CPAN</a></li>
+          <li><a href="http://groups.google.com/group/mojolicious" target="_mojo">MailingList</a></li>
+          <li><a href="http://blog.kraih.com" target="_mojo">Blog</a></li>
+          <li><a href="http://twitter.com/kraih" target="_mojo">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><!-- // .navbar -->
+
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+    <h1>Page not found... yet!</h1>
+
+    <p>
+      None of these routes matched your
+      <code><: $c.req.method :></code> request for
+      <code><: $c.req.url.path :></code>, maybe you need to adda new one ?
+    </p>
+
+    : macro walk -> ($node, $depth) {
+    <tr>
+      <td>
+        : my $pattern = $depth ? "+" ~ ($node.pattern.pattern // '/') : ($node.pattern.pattern // '/');
+        <pre><: '  ' x $depth :><: $pattern :></pre>
+      </td>
+      <td>
+        <pre><: $node.via.join('/') // '*' :></pre>
+      </td>
+      <td>
+        : my $name = $node.name;
+        <pre><: $node.has_custom_name ? '"' ~ $name ~ '"' : $name :></pre>
+      </td>
+    </tr> 
+      : my $d = $depth + 1;
+      : for $node.children -> $route {
+        : walk( $route, $d );
+      : }
+    : }
+
+    <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Pattern</th>
+        <th>Methods</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    : for $c.app.routes.children -> $route {
+      : walk( $route, 0 );
+    : }
+    </table>
+
+    </div><!-- // .span12 -->
+  </div><!-- // .row -->
+</div><!-- // .container -->
+</body>
+</html>
+:# vi:set ts=2 sw=2 sts=2 ft=xslate et:

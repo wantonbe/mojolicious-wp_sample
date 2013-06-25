@@ -1,0 +1,19 @@
+: cascade layouts::default { title => "サービスリクエストの作成" };
+
+: around main -> {
+<div class="row">
+  <div class="span12">
+	<form action="">
+		<fieldset>
+			<legend></legend>
+			<label for="product">製品名: </label>
+			<input type="text" name="product" id="product" />
+			<label for="title">タイトル: </label>
+			<input type="text" name="title" id="title" />
+			<input type="submit" value="送信" class="btn" />
+		</fieldset>
+	</form>
+  </div>
+</div>
+: }
+:# vi:set ts=4 sw=4 sts=4 noet:

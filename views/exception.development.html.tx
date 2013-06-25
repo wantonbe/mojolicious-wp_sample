@@ -1,0 +1,203 @@
+:# エラー画面（開発用）
+:# -*- coding: utf8 -*-
+<!DOCTYPE HTML>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>Server error</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style>
+    body {
+      background-color: #f5f6f8;
+      color: #445555;
+      font: 0.9em 'Helvetica Neue', Helvetica, sans-serif;
+      font-weight: normal;
+      line-height: 1.5em;
+    }
+    pre {
+      font: 0.8em Consolas, Menlo, Monaco, Courier, monospace;
+      margin: 0;
+      padding: 0;
+      white-space: pre-wrap;
+      border: none;
+      background-color: transparent;
+    }
+
+    .box {
+      background-color: #fff;
+      -moz-box-shadow: 0 0 2px #ccc;
+      -webkit-box-shadow: 0 0 2px #ccc;
+      box-shadow: 0 0 2px #ccc;
+      overflow: hidden;
+      padding: 1em;
+    }
+    .code,
+    .code pre {
+      background-color: #1a1a1a;
+      color: #eee;
+      text-shadow: #333 0 1px 0;
+    }
+    .spaced {
+      margin-left: 5em;
+      margin-right: 5em;
+    }
+
+    .tap {
+      font: 0.5em Verdana, sans-serif;
+      text-align: center;
+    }
+
+    #showcase > pre {
+      font: 1.5em 'Helvetica Neue', Helvetica, sans-serif;
+      font-weight: 300;
+      margin: 0;
+      text-shadow: #333 0 1px 0;
+    }
+
+    #showcase .table td {
+      border-top: none;
+    }
+
+    .important { background-color: rgba(47, 48, 50, .75) }
+
+    </style>
+  </head>
+<body>
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a href="http://mojolicio.us" class="brand" target="_blank">Mojolicious</a>
+      <div class="navbar">
+        <ul class="nav pull-right">
+          <li><a href="http://mojolicio.us/perldoc" target="_mojo">Documentation</a></li>
+          <li><a href="http://mojocasts.com" target="_mojo">Screencasts</a></li>
+          <li><a href="https://github.com/kraih/mojo/wiki" target="_mojo">Wiki</a></li>
+          <li><a href="https://github.com/kraih/mojo" target="_mojo">GitHub</a></li>
+          <li><a href="http://metacpan.org/release/Mojolicious/" target="_mojo">CPAN</a></li>
+          <li><a href="http://groups.google.com/group/mojolicious" target="_mojo">MailingList</a></li>
+          <li><a href="http://blog.kraih.com" target="_mojo">Blog</a></li>
+          <li><a href="http://twitter.com/kraih" target="_mojo">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div><!-- // .navbar -->
+
+: macro cv -> ($key, $value, $i) {
+  <tr<: $i ? mark_raw(' class="important"') : '' :>>
+    <td class="key"><: $key :></td>
+    <td class="value"><pre><: $value :></pre></td>
+  </tr>
+: }
+
+: macro kv -> ($key, $value) {
+  <tr>
+    <td class="key"><: $key :></td>
+    <td class="value"><pre><: $value :></pre></td>
+  </tr>
+: }
+
+<div class="container">
+
+<div class="row">
+  <div class="span12">
+    <div id="showcase" class="box code">
+      <pre><: $exception.message :></pre>
+
+      <table class="table table-condensed">
+: for $exception.lines_before -> $line {
+  : cv( $line[0], $line[1], 0 );
+: }
+: if (defined $exception.line[1]) {
+  : cv( $exception.line[0], $exception.line[1], 1 );
+: }
+: for $exception.lines_after -> $line {
+  : cv( $line[0], $line[1], 0 );
+: }
+     </table>
+
+: if (defined $exception.line[2]) {
+      <div id="insight">
+      <table class="table table-condensed">
+: for $exception.lines_before -> $line {
+  : cv( $line[0], $line[2], 0 );
+: }
+: cv( $exception.line[0], $exception.line[2], 1 );
+: for $exception.lines_after -> $line {
+  : cv( $line[0], $line[2], 0 );
+: }
+      </table>
+      </div><!-- #insight -->
+
+    <div class="tap">tap for more</div>
+: }
+    </div><!-- #showcase -->
+  </div>
+</div><!-- // .row -->
+
+<div class="row">
+  <div class="span12">
+    <div id="trace" class="box">
+    : if $exception.frames {
+      <div id="frames">
+        <table class="table table-condensed table-striped">
+        : for $exception.frames -> $frame {
+          <tr>
+            <td><pre><: [ $frame[1], $frame[2] ].join(':') :></pre></td>
+          </tr>
+        : }
+        </table>
+      </div><!-- // #frames -->
+    : }
+    </div><!-- #trace -->
+  <div class="tap">tap for more</div>
+  </div><!-- // .span12 -->
+</div><!-- // .row -->
+
+<div class="row">
+  <div class="span12">
+    <div id="request" class="box infobox">
+      <table class="table table-condensed table-striped">
+      <colgroup>
+        <col class="span2" />
+        <col class="span10" />
+      </colgroup>
+: my $req = $c.req;
+      : kv( "Method", $req.method );
+: my $url = $req.url;
+      : kv( "URL", $url.to_string );
+      : kv( "Base URL", $url.base.to_string );
+      : kv( "Parameters", dump($req.params.to_hash) );
+      : kv( "Stash", dump($snapshot) );
+      : kv( "Session", dump($session) );
+      : kv( "Version", $req.version );
+: for $req.headers.names -> $name {
+  : my $value = $req.headers.header($name);
+      : kv( $name, $value );
+: }
+      </table>
+    </div><!-- #request -->
+  </div><!-- // .span12 -->
+</div><!-- // .row -->
+
+<div class="row">
+  <div class="span12">
+    <div id="more" class="box infobox">
+      <table class="table table-condensed table-striped">
+      <colgroup>
+        <col class="span2" />
+        <col class="span10" />
+      </colgroup>
+      : kv( "Home", $c.app.home );
+      : kv( "Include", dump($INC) );
+      : kv( "Name", $0 );
+      </table>
+    </div><!-- #more -->
+    <div class="tap">tap for more</div>
+  </div><!-- // .span12 -->
+</div><!-- // .row -->
+
+</div><!-- .container -->
+</body>
+</html>
+:# vi:set ts=2 sw=2 sts=2 ft=xslate noet:

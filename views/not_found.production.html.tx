@@ -1,0 +1,40 @@
+:# NotFound画面（リリース用）
+:# -*- coding: utf8 -*-
+
+: cascade layouts::default {}
+
+: after stylesheets -> {
+: }
+
+: around content -> {
+<div class="alert alert-large alert-error">
+  <h4>操作エラー</h4>
+  <p>
+    指定されたページが見つかりません。
+    (URLを直接入力した場合にもこのメッセージが表示されることがあります)
+  </p>
+</div>
+
+<ul class="pager">
+  <li>
+    <:
+      html_button(
+        class => 'btn_large',
+        label => 'TOPに戻る',
+        id => 'btn_index',
+      )
+    :>
+  </li>
+</ul>
+: }
+
+: after javascripts -> {
+<script>
+$(function() {
+    $("#btn_index").click(function() {
+        window.location.href = '<: $config.top_menu :>';
+    });
+});
+</script>
+: }
+:# vi:set ts=2 sw=2 sts=2 ft=xslate et:
